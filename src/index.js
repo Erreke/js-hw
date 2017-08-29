@@ -26,7 +26,7 @@ function defaultParameterValue(a, b = 100) {
  Количество переданных аргументов заранее неизвестно
  */
 function returnArgumentsArray() {
-    return [].map.call(arguments, arg => arg);
+    return [...arguments];
 }
 
 /*
