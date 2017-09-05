@@ -1,3 +1,4 @@
+
 /* ДЗ 2 - работа с исключениями и отладчиком */
 
 /*
@@ -142,3 +143,4 @@ export {
     returnBadArguments,
     calculator
 };
+
