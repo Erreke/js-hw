@@ -5,7 +5,7 @@
  Напишите аналог встроенного метода forEach для работы с массивами
  */
 function forEach(array, fn) {
-    for(var i = 0, len = array.length; i < len; i++) {
+    for (var i = 0, len = array.length; i < len; i++) {
         fn(array[i], i, array);
     }
 }
@@ -17,7 +17,7 @@ function forEach(array, fn) {
 function map(array, fn) {
     var result = [];
 
-    for(var i = 0, len = array.length; i < len; i++) {
+    for (var i = 0, len = array.length; i < len; i++) {
         result.push(fn(array[i], i, array));
     }
 
@@ -33,7 +33,7 @@ function reduce(array, fn, initial) {
         start = initial ? 0 : 1,
         len = array.length
 
-    for(var i = start; i < len; i++) {
+    for (var i = start; i < len; i++) {
         result = fn(result, array[i], i, array);
     }
 
@@ -66,7 +66,7 @@ function hasProperty(obj, prop) {
 function getEnumProps(obj) {
     var result = [];
 
-    for(var prop in obj) {
+    for (var prop in obj) {
         result.push(prop);
     }
 
@@ -79,8 +79,8 @@ function getEnumProps(obj) {
  */
 function upperProps(obj) {
     var result = [];
-    
-    for(var prop in obj) {
+
+    for (var prop in obj) {
         result.push(prop.toUpperCase());
     }
 
@@ -93,24 +93,28 @@ function upperProps(obj) {
  */
 function slice(array, from, to) {
     var result = [];
-    
-    if(from === undefined) {
-    	from = 0;
-    } else if (from < 0) {
-    	from = array.length - Math.abs(from);
-    }
-    
-    if(to === undefined || to > array.length) {
-    	to = array.length;
-    } else if (to < 0 ) {
-    	to = array.length - Math.abs(to)
-    }
-    
-    if(Math.abs(from) > array.length) {
-    	from = to = 0;
+
+    if (from === undefined) {
+        from = 0;
     }
 
-    for(var i = from; i < to; i++) {
+    if (from < 0) {
+        from = array.length - Math.abs(from);
+    }
+
+    if (from < 0 && Math.abs(from) > array.length) {
+        from = 0;
+    }
+
+    if (to === undefined || to > array.length) {
+        to = array.length;
+    }
+
+    if (to < 0) {
+        to = array.length - Math.abs(to)
+    }
+
+    for (var i = from; i < to; i++) {
         result.push(array[i]);
     }
 
