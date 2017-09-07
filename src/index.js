@@ -244,7 +244,7 @@ function observeChildNodes(where, fn) {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             const addedNodes = mutation.addedNodes;
-            const removedNodes = mutation.addedNodes;
+            const removedNodes = mutation.removedNodes;
 
             if (addedNodes.length > 0) {
                 fn({
