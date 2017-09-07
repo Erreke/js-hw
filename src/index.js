@@ -237,7 +237,36 @@ function collectDOMStat(root) {
  * }
  */
 function observeChildNodes(where, fn) {
+    function convertToArray(node) {
+        return Array.prototype.slice.call(node)
+    }
 
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            const addedNodes = mutation.addedNodes;
+            const removedNodes = mutation.addedNodes;
+
+            if (addedNodes.length > 0) {
+                fn({
+                    type: 'insert',
+                    nodes: convertToArray(addedNodes)
+                });
+            }
+
+            if (removedNodes.length > 0) {
+                fn({
+                    type: 'remove',
+                    nodes: convertToArray(removedNodes)
+                });
+            }
+        });
+    });
+
+    observer.observe(where, {
+        childList: true,
+        characterData: true,
+        subtree: true
+    });
 }
 
 export {
