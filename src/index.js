@@ -7,7 +7,7 @@
  * @return {Element}
  */
 function createDivWithText(text) {
-    var div = document.createElement('div');
+    const div = document.createElement('div');
 
     div.append(text);
 
@@ -21,7 +21,7 @@ function createDivWithText(text) {
  * @return {Element}
  */
 function createAWithHref(hrefValue) {
-    var a = document.createElement('a');
+    const a = document.createElement('a');
 
     a.setAttribute('href', hrefValue);
 
@@ -54,7 +54,7 @@ function prepend(what, where) {
  */
 function findAllPSiblings(where) {
     return [].filter.call(where.children, (el) => {
-        if(el.nextElementSibling) {
+        if (el.nextElementSibling) {
             return el.nextElementSibling.nodeName == 'P';
         }
     })
@@ -69,9 +69,9 @@ function findAllPSiblings(where) {
  * @return {Array<string>}
  */
 function findError(where) {
-    var result = [];
+    const result = [];
 
-    for (var i = 0; i < where.childNodes.length; i++) {
+    for (let i = 0; i < where.childNodes.length; i++) {
         if (where.childNodes[i].nodeType === Node.ELEMENT_NODE) {
             result.push(where.childNodes[i].innerText);
         }
@@ -94,7 +94,7 @@ function findError(where) {
  * должно быть преобразовано в <div></div><p></p>
  */
 function deleteTextNodes(where) {
-    for (var i = 0; i < where.childNodes.length; i++) {
+    for (let i = 0; i < where.childNodes.length; i++) {
         if (where.childNodes[i].nodeType === Node.TEXT_NODE) {
             where.removeChild(where.childNodes[i]);
         }
@@ -112,10 +112,10 @@ function deleteTextNodes(where) {
  * должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
 function deleteTextNodesRecursive(where) {
-    var childNodes = where.childNodes;
+    const childNodes = where.childNodes;
 
-    for (var i = 0; i < childNodes.length; i++) {
-        var childNode = childNodes[i];
+    for (let i = 0; i < childNodes.length; i++) {
+        let childNode = childNodes[i];
 
         if (childNode.childNodes.length > 0) {
             deleteTextNodesRecursive(childNode);
@@ -151,53 +151,58 @@ function deleteTextNodesRecursive(where) {
  * }
  */
 function collectDOMStat(root) {
-    var tags = [],
-        classes = [],
-        texts = [],
-        len = root.childNodes.length,
-        childNodes = root.childNodes;
+    const stat = {
+        tags: [],
+        classes: [],
+        texts: []
+    };
 
-    function collectStat(element) {
-        var tags = [],
-            classes = [],
-            texts = [],
-            len = element.childNodes.length,
-            childNodes = element.childNodes;
+    function collectStat(nodes) {
+        const childNodes = nodes.childNodes,
+            length = childNodes.length;
 
-        for (var i = 0; i < len; i++) {
-            var node = childNodes[i];
+        for (let i = 0; i < length; i++) {
+            const node = childNodes[i];
 
-            if(node.nodeType === Node.ELEMENT_NODE) {
-                tags.push(node.nodeName);
-            
-                [].map.call(node.classList, function(className){
-                    classes.push(className);
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                stat.tags.push(node.nodeName);
+
+                [].map.call(node.classList, function (className) {
+                    stat.classes.push(className);
                 })
             }
 
-            if(node.nodeType === Node.TEXT_NODE) {
-                texts.push(node);
+            if (node.nodeType === Node.TEXT_NODE) {
+                stat.texts.push(node);
             }
 
-            if(element.childNodes.length > 0) {
-                collectStat(node)
+            if (node.childNodes.length > 0) {
+                collectStat(node);
             }
-
-            
         }
-
-        var w = {
-            tags: tags,
-            classes: classes,
-            texts: texts
-        }
-
-        console.log(tags, classes, texts)
-
     }
 
-    collectStat
+    function reduceStat(array) {
+        const result = {};
 
+        array.map((el) => {
+            if (result[el]) {
+                result[el]++
+            } else {
+                result[el] = 1
+            }
+        });
+
+        return result;
+    }
+
+    collectStat(root);
+
+    return {
+        tags: reduceStat(stat.tags),
+        classes: reduceStat(stat.classes),
+        texts: stat.texts.length
+    };
 }
 
 /**
@@ -232,6 +237,7 @@ function collectDOMStat(root) {
  * }
  */
 function observeChildNodes(where, fn) {
+
 }
 
 export {
