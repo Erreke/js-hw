@@ -23,6 +23,19 @@ let homeworkContainer = document.querySelector('#homework-container');
  * @return {Element}
  */
 function createDiv() {
+    function getRandom () {
+        return Math.random() * Math.random() * 10;
+    }
+
+    const div = document.createElement('div');
+    div.style.width = `${getRandom()}px`;
+    div.style.height = `${getRandom()}px`;
+    div.style.top = `${getRandom()}px`;
+    div.style.left = `${getRandom()}px`;
+    div.style.backgroundColor = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
+    div.classList.add('draggable-div');
+
+    return div;
 }
 
 /**
@@ -31,6 +44,33 @@ function createDiv() {
  * @param {Element} target
  */
 function addListeners(target) {
+    target.addEventListener('dragstart', (e) => {
+        console.log('dragstart event', e);
+    });
+
+    target.addEventListener('drag', (e) => {
+        console.log('drag event', e);
+    });
+
+    target.addEventListener('dragenter', (e) => {
+        console.log('dragenter event', e);
+    });
+
+    target.addEventListener('dragleave', (e) => {
+        console.log('dragleave event', e);
+    });
+
+    target.addEventListener('dragover', (e) => {
+        console.log('dragover event', e);
+    });
+
+    target.addEventListener('drop', (e) => {
+        console.log('drop event', e);
+    });
+
+    target.addEventListener('dragend', (e) => {
+        console.log('dragend event', e);
+    });
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
